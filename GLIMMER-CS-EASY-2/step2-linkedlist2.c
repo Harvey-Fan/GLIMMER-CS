@@ -72,25 +72,22 @@ LNode *CreateHeadList(int n)  // 头插法创建链表，头插法会让新结�
     return L;
 }
 
-void ReverseList(LNode *L)  // 反转链表，核心思想是改变结点的 next 指向
+void ReverseList(LNode *L)  // 反转链表：每次把当前结点插入到头结点之后，形成新头
 {
     if(L == NULL || L->next == NULL || L->next->next == NULL)  // 空表或只有一个结点不需要反转
     {
         return;
     }
 
-    LNode *prev = NULL;   // prev 表示前一个结点
-    LNode *curr = L->next; // curr 表示当前结点
+    LNode *beg = L->next;  // beg 指向原链表的第一个结点
 
-    while(curr != NULL)
+    while(beg != NULL && beg->next != NULL)  // 只要还没到链表尾，就继续处理
     {
-        LNode *next = curr->next;  // 先保存下一个结点，防止断链
-        curr->next = prev;         // 当前结点指向前一个结点
-        prev = curr;               // prev 后移
-        curr = next;               // curr 后移
+        LNode *end = beg->next;          // end 指向当前结点的下一个结点
+        beg->next = end->next;           // 连：把当前结点从原链中断开
+        end->next = L->next;             // 掉：让 end 指向原头结点之后
+        L->next = end;                   // 接：把 end 插到虚拟头结点后面
     }
-
-    L->next = prev;  // 头结点重新指向反转后的首结点
 }
 
 void FreeList(LNode *L)  // 释放链表中的所有结点，避免内存泄漏
