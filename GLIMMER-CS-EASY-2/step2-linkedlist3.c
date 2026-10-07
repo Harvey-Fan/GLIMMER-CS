@@ -45,15 +45,16 @@ int reverseList(LNode *L)
 {
     if(L->next == NULL)
         return 0;
+
     LNode *p = L->next;
     L->next = NULL; //把原链表拆下来，虚拟头置空
     LNode *q;
-    while(p != NULL)
+    while(p != NULL)   //p会去遍历，所有节点处理完会是null
     {
-        q = p->next;            //保存后面节点
-        p->next = L->next;  //p接到虚拟头后面
-        L->next = p;         //虚拟头指向p
-        p = q;              //p移动到下一个
+        q = p->next;            //保存后面节点，p,q同步平移
+        p->next = L->next;  //意思是每一个节点右端链接首元节点，
+        L->next = p;         //虚拟头指向p左端，已经利用头插法把他夹住了
+        p = q;              //p移动到下一个，马上下一个循环q同步平移进行下一轮头插
     }
     return 1;
 }
